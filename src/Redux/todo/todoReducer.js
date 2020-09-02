@@ -1,11 +1,8 @@
 import types from "./todoTypes";
-import {v4 as uId} from "uuid";
+import { v4 as uid } from 'uuid';
 
 const initialState = {
-  todoList: [
-    {id:uId,title: "Task1",subTask:[{id:uId(),title:"text1",status:false}]},
-    {id:uId,title: "Task1",subTask:[{id:uId(),title:"text1",status:false}]}
-  ],
+  todoList: [],
 };
 
 const todoReducer = (state = initialState, { type, payload }) => {

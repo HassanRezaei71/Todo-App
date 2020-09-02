@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import Header from "../Components/Header";
-import { v4 as uId } from "uuid";
+import React from "react";
+import { connect } from "react-redux";
 import { Container } from "@material-ui/core";
 import TodoCard from "../Components/TodoCard";
 
-export default function Home() {
-  const [todos, SetTodos] = useState([
-    { id: uId, title: "Task1", subTask: [{ id: uId(), text: "text1", status: false }] },
-    { id: uId, title: "Task1", subTask: [{ id: uId(), text: "text1", status: true }] },
-  ]);
-
+function Home({ todos }) {
   return (
     <Container>
       {todos.map((item) => (
-        <TodoCard todo={item} />
+        <TodoCard todo={item} key={item.id} />
       ))}
     </Container>
   );
 }
+
+const mapStateToProps = (state) => {
+  return { todos: state.todo.todoList };
+};
+
+export default connect(mapStateToProps, {})(Home);
