@@ -76,7 +76,7 @@ function AddTodo({ addTodo, editTodo }) {
             onChange={handleChange}
             id="title"
             name="title"
-            label="Title"
+            label="Task"
             type="text"
             required
           />
@@ -87,7 +87,7 @@ function AddTodo({ addTodo, editTodo }) {
             onChange={handleChange}
             id="text"
             name="text"
-            label="Task"
+            label="Description"
             type="text"
             required
           />
