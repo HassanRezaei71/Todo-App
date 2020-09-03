@@ -14,9 +14,16 @@ export const deleteTodo = todoId =>{
     }
 }
 
-export const editTodo = (id,text)=>{
+export const editTodo = (todo)=>{
     return {
         type: types.UPDATE_TO_DO,
-        payload: {id,text}
+        payload: todo
+    }
+}
+
+export const toggleDoneTodo = (todoId,itemId)=>{
+    return {
+        type: types.DONE_TOGGLE,
+        payload: {todoId,itemId}
     }
 }

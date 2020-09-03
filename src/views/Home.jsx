@@ -1,14 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Container } from "@material-ui/core";
-import TodoCard from "../Components/TodoCard";
+import TodoTable from "../Components/TodoTable";
 
 function Home({ todos }) {
   return (
     <Container>
-      {todos.map((item) => (
-        <TodoCard todo={item} key={item.id} />
-      ))}
+      <TodoTable todos={todos}/>
     </Container>
   );
 }
@@ -17,4 +15,4 @@ const mapStateToProps = (state) => {
   return { todos: state.todo.todoList };
 };
 
-export default connect(mapStateToProps, {})(Home);
+export default connect(mapStateToProps, { })(Home);

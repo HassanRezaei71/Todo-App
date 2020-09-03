@@ -19,7 +19,9 @@ function App() {
           <Route path="/add">
             <AddTodo />
           </Route>
-          <Route path="/update/:id"></Route>
+          <Route path="/update/:id">
+            <AddTodo />
+          </Route>
           <Route path="/todo/:id"></Route>
         </Switch>
       </Router>

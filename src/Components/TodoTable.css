@@ -1,0 +1,18 @@
+.c-subtask-item {
+  display: flex;
+  align-items: center;
+}
+
+.c-subtask-item li {
+  list-style-type: none;
+}
+
+.mytable{
+  width: 60% !important;
+  margin: 2rem auto;
+}
+
+
+.c-disable{
+  opacity: 0.1 !important;
+}

@@ -1,8 +1,14 @@
 import types from "./todoTypes";
-import { v4 as uid } from 'uuid';
-
+import { v4 as uid } from "uuid";
 const initialState = {
-  todoList: [],
+  todoList: [
+    {
+      id: uid(),
+      title: "Task1",
+      text: "desc Task1",
+      subTask: [{ id: uid(), text: "Hello", status: false }],
+    },
+  ],
 };
 
 const todoReducer = (state = initialState, { type, payload }) => {
@@ -20,12 +26,18 @@ const todoReducer = (state = initialState, { type, payload }) => {
     case types.UPDATE_TO_DO:
       return {
         ...state,
+        todoList: state.todoList.map((item) => (item.id === payload.id ? payload : item)),
+      };
+    case types.DONE_TOGGLE:
+      return {
+        ...state,
         todoList: state.todoList.map((item) =>
-          item.id === payload.id
+          item.id === payload.todoId
             ? {
-                id: payload.id,
-                done: false,
-                text: payload.text,
+                ...item,
+                subTask: item.subTask.map((sub) =>
+                  sub.id === payload.itemId ? { ...sub, status: !sub.status } : sub
+                ),
               }
             : item
         ),

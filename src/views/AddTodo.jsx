@@ -3,9 +3,9 @@ import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import { FormGroup, Container, Button } from "@material-ui/core";
 import { v4 as uId } from "uuid";
-import { connect } from "react-redux";
-import { addTodo } from "../Redux/todo/todoAction";
-import { useHistory } from "react-router-dom";
+import { connect, useSelector } from "react-redux";
+import { addTodo, editTodo } from "../Redux/todo/todoAction";
+import { useHistory, useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -24,14 +24,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function AddTodo({ addTodo }) {
+function AddTodo({ addTodo, editTodo }) {
   const history = useHistory();
-  const [todo, setTodo] = useState({
-    title: "",
-    text: "",
-  });
+  const { id } = useParams();
+  const todoItem = useSelector((state) =>
+    state.todo.todoList.find((item) => item.id === id)
+  );
+  const [todo, setTodo] = useState(
+    todoItem
+      ? { title: todoItem.title, text: todoItem.text }
+      : {
+          title: "",
+          text: "",
+        }
+  );
 
-  const [subTask, setSubTask] = useState([{ id: uId(), text: "", status: false }]);
+  const [subTask, setSubTask] = useState(
+    todoItem ? todoItem.subTask : [{ id: uId(), text: "", status: false }]
+  );
 
   const addSubTask = () => {
     setSubTask([...subTask, { id: uId(), text: "", status: false }]);
@@ -39,8 +49,7 @@ function AddTodo({ addTodo }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name,value);
-    setTodo({ ...todo,[name]: value });
+    setTodo({ ...todo, [name]: value });
   };
 
   const handleChangeSub = (subid, e) => {
@@ -52,7 +61,8 @@ function AddTodo({ addTodo }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addTodo({ ...todo, id: uId(), subTask: [...subTask] });
+    todoItem && editTodo({ id: todoItem.id, ...todo, subTask: subTask });
+    !todoItem && addTodo({ id: uId(), ...todo, subTask: subTask });
     history.push("/");
   };
 
@@ -98,7 +108,7 @@ function AddTodo({ addTodo }) {
             Add SubTask
           </Button>
           <Button variant="contained" color="secondary" type="submit">
-            Submit
+            {todoItem ? "Edit" : "Submit"}
           </Button>
         </div>
       </form>
@@ -106,4 +116,4 @@ function AddTodo({ addTodo }) {
   );
 }
 
-export default connect(null, { addTodo })(AddTodo);
+export default connect(null, { addTodo, editTodo })(AddTodo);
